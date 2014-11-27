@@ -8,33 +8,32 @@
  * Controller of the spellingWpProjectApp
  */
 angular.module('spellingWpProjectApp')
-  .controller('MainCtrl',  function ($scope, SpellingAssignmentService ) {
+  .controller('MainCtrl',  function ($scope, SpellingAssignment ) {
     // AngularJS will instantiate a singleton by calling "new" on self function
     
     var self = this;
-    self.spellingAssignments = SpellingAssignmentService.query();
-    
-    self.checkIfMisspelled =function(word,spellingAssignment){
-        var misspelledWords = $.map(spellingAssignment.misspelled_words,function(v,k){
-            return v.text;
-        });
-        if ($.inArray(word.text,misspelledWords)>-1){
-            return true;
-        }
-        console.log(word);
-        return false;
+    self.assignments = SpellingAssignment.query();
+    self.assignment = new SpellingAssignment(); 
+    self.checkIfMisspelled = function (word,assignment){
+        return assignment.checkIfMisspelled(word);
     };
-    
 
-    self.addSpellingAssignment = function(){
-        SpellingAssignmentService.save(self.spellingAssignment);
-        self.spellingAssignments.push(self.spellingAssignment);
- 
-        self.spellingAssignment = new SpellingAssignmentService();
+    self.addAssignment = function(){
+        console.log(self.assignment);
+        self.assignment.$save();
+        self.assignments.push(self.assignment);
+        self.assignment = new SpellingAssignment();
         //$scope.spellingAssignment.url = 'test';
     };
 
-    self.removeSpellingAssignment = function(index){
-        self.spellingAssignments.splice(index,1);
+    self.updateAssignment =function(assignment,index){
+        SpellingAssignment.update({id:assignment.id}, assignment);
+        
+    };
+
+    self.removeAssignment= function(assignment,index){
+        console.log(assignment);
+        assignment.$delete();
+        self.assignments.splice(index,1);
     };
   });

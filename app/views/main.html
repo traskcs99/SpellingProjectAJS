@@ -1,12 +1,12 @@
 <div class="container">
     <h2>My Spelling Assignments</h2>
     
-    <form role="form" ng-submit="mainCtrl.addSpellingAssignment()">
+    <form role="form" ng-submit="mainCtrl.addAssignment()">
         <div class="row">
             <div>
-                <input type="text" ng-model="mainCtrl.spellingAssignment.week_number" placeholder="Week Number?">
-                <p>Date Assigned: <input ui-date ng-model="mainCtrl.spellingAssignment.date_assigned" style="position: relative; z-index: 100000;"></p>
-                <input type="text" ng-model="mainCtrl.spellingAssignment.assignment_description" placeholder="Assignment Description">
+                <input type="text" ng-model="mainCtrl.assignment.week_number" placeholder="Week Number?">
+                <p>Date Assigned: <input ui-date ng-model="mainCtrl.assignment.date_assigned" style="position: relative; z-index: 100000;"></p>
+                <input type="text" ng-model="mainCtrl.assignment.assignment_description" placeholder="Assignment Description">
                 <span class="input-group-btn">
                     <input type="submit" class="btn btn-primary" value="Add">
                 </span>
@@ -14,7 +14,7 @@
         </div>
     </form>
         <div>
-            <div class="panel panel-default" ng-repeat="spellingAssignment in mainCtrl.spellingAssignments" >
+            <div class="panel panel-default" ng-repeat="spellingAssignment in mainCtrl.assignments" >
                 <br />
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
@@ -39,13 +39,31 @@
                         <label for"input_spelling_words" class="col-sm-3 control-label">Spelling Words:</label>
                         <div class="col-sm-8">
                             <span> 
-                                <button type="button" ng-repeat="word in spellingAssignment.spelling_words_text" ng-class= "mainCtrl.checkIfMisspelled(word,spellingAssignment) ? 'btn btn-danger' : 'btn btn-info'"> {{word.text}} </button>
+                                <button 
+                                    type = "button" 
+                                    ng-repeat = "word in spellingAssignment.spelling_words_text" 
+                                    ng-class = "mainCtrl.checkIfMisspelled(
+                                        word,spellingAssignment) ? 
+                                        'btn btn-danger' : 'btn btn-info'"> 
+                                        {{word.text}} 
+                                </button>
                             </span>
                         </div>
                     </div>
-                    <!--<span> -->
-                        <!--<button class="btn btn-danger" ng-click="removeSpellingAssignment($index)" aria-label="Remove">X</button>-->
-                    <!--</span>-->
+                    <div class="form-group">
+                        <label class="col-sm-1"> </label> 
+                        <div class=col-sm-11">    
+                            <button type  = "button"
+                                class = "btn btn-danger"
+                                ng-click = "mainCtrl.removeAssignment(spellingAssignment,$index)">
+                                Delete
+                            </button>
+                            <button type  = "button"
+                                class = "btn btn-success"
+                                ng-click = "mainCtrl.updateAssignment(spellingAssignment,$index)">
+                                Update
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
